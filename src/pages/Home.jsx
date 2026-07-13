@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useUsers } from "../context/UsersContext";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
   const { users, loading, error } = useUsers();
@@ -18,11 +19,11 @@ const Home = () => {
     );
   }
 
+  const navigate = useNavigate();
+
   const [filteredUsers, setFilteredUsers] = useState(users);
 
   const [searchTerm, setSearchTerm] = useState("");
-
-  console.log({ users, loading, error });
 
   useEffect(() => {
     const filtered = users.filter(
@@ -34,6 +35,10 @@ const Home = () => {
 
     setFilteredUsers(filtered);
   }, [searchTerm, users]);
+
+  const handleUserCardClick = (userId) => {
+    navigate(`/users/${userId}`);
+  };
 
   return (
     <div>
@@ -52,6 +57,7 @@ const Home = () => {
             <div
               key={user.id}
               className="cursor-pointer border border-[darkcyan] rounded p-4 shadow hover:shadow-lg hover:-translate-y-1 transition"
+              onClick={() => handleUserCardClick(user.id)}
             >
               <h2 className="text-center text-xl font-bold mb-2">
                 {user.username}

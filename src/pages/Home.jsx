@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useUsers } from "../context/UsersContext";
 import { useNavigate } from "react-router-dom";
 
@@ -21,19 +21,19 @@ const Home = () => {
 
   const navigate = useNavigate();
 
-  const [filteredUsers, setFilteredUsers] = useState(users);
-
   const [searchTerm, setSearchTerm] = useState("");
 
-  useEffect(() => {
+  const filteredUsers = useMemo(() => {
+    const searchTermLower = searchTerm.toLowerCase();
+
     const filtered = users.filter(
       (user) =>
-        user.username.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        user.email.toLowerCase().includes(searchTerm.toLowerCase()),
+        user.username.toLowerCase().includes(searchTermLower) ||
+        user.name.toLowerCase().includes(searchTermLower) ||
+        user.email.toLowerCase().includes(searchTermLower),
     );
 
-    setFilteredUsers(filtered);
+    return filtered;
   }, [searchTerm, users]);
 
   const handleUserCardClick = (userId) => {

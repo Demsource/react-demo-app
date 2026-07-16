@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { validatePhoneNumberError } from "../utils/validation";
 
 const Login = () => {
   const [error, setError] = useState(null);
@@ -10,20 +11,16 @@ const Login = () => {
   const handleLogin = (e) => {
     e.preventDefault();
 
-    const trimmedPhone = phone.trim();
+    const validationError = validatePhoneNumberError(phone);
 
-    if (!trimmedPhone) {
-      setError("Phone number is required to login");
+    if (validationError) {
+      setError(validationError);
       return;
     }
 
-    if (/^\+\d{12}$/.test(trimmedPhone)) {
-      localStorage.setItem("isLoggedIn", JSON.stringify(true));
-      setError("");
-      navigate("/");
-    } else {
-      setError("Mobile number should start with a + followed by 12 digit");
-    }
+    localStorage.setItem("isLoggedIn", JSON.stringify(true));
+    setError("");
+    navigate("/");
   };
 
   return (

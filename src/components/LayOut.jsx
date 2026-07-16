@@ -11,7 +11,7 @@ const LayOut = () => {
     <>
       <header>
         <nav>
-          <ul className="flex justify-center gap-2 font-bold">
+          <ul className="flex justify-center gap-2 font-bold mt-2">
             <li>
               <NavLink className={activeClass} to="/" end>
                 Main Page
